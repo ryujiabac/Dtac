@@ -1,0 +1,92 @@
+﻿<style>
+    .map{
+        height:700px;
+    }
+    .cell_list{
+        font-size:14px;
+    }
+    .blue {
+        border-radius: 120px;
+        background-color: dodgerblue;
+        border:1px thick blue;
+    }
+
+</style>
+<md-dialog aria-label="Mango (Fruit)" style="width:100%">
+    
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Neighbors for {{worstCellMap.data.cells[0].UtranCell}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="images/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+
+            </div>
+        </md-toolbar>
+
+
+    
+    <div layout="row" style="overflow:hidden">
+        <md-progress-linear ng-show="worstCellMap_isLoadData" md-mode="indeterminate"></md-progress-linear>
+        <leaflet ng-if="!worstCellMap_isLoadData" bounds="worstCellMap.bounds" layers="worstCellMap.layers" markers="worstCellMap.markers"
+                 class="map" width="100%" flex></leaflet>
+        <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right" flex layout="column" md-is-locked-open="$mdMedia('gt-md')">
+            <!--<md-toolbar class="md-toolbar-tools" flex="10">
+                <h1 class="md-toolbar-tools">Sidenav Right</h1>
+            </md-toolbar>-->
+            <!--<md-content flex>
+                <md-list>
+                    <md-list-item class="md-3-line" ng-repeat="obj in worstCellMap.data.neighborCells">                       
+                        <img src="images/icons/{{obj.pCell_Avail == 100?'cell_green':'cell_red'}}.png" class="md-avatar" style="width:16px;height:16px;-webkit-transform: rotate({{obj.AZIMUTH}}deg)">
+                        <div class="md-list-item-text">
+                            <h3>{{obj.UtranCell}}</h3>
+                            <p>
+                                {{obj.pCell_Avail}}%
+                            </p>
+                        </div>
+                        <md-divider inset=""></md-divider>
+                    </md-list-item>
+                </md-list>
+            </md-content>-->
+                    
+
+            <md-content layout="column" flex>
+                <md-toolbar class="md-toolbar-tools" flex="none">
+                    <span ng-bind="worstCellMap.selectedMaker.model.data.UtranCell"></span>
+                </md-toolbar>
+                <div style="text-align:center" layout="row" flex="none">
+                    <justgage title="Availability" min="0" max="100" value="{{worstCellMap.selectedMaker.model.data.pCell_Avail}}" label="%" level-colors="{{guage100.levelColors}}" custom-sectors="{{guage100.customSectors}}" decimals="2" width="160""></justgage>
+                    <justgage title="CS Drop ({{worstCellMap.selectedMaker.model.data.E3GCSDrop}})" min="0" max="100" value="{{worstCellMap.selectedMaker.model.data.pE3GCSDrop}}" label="%" level-colors="{{guage000.levelColors}}" custom-sectors="{{guage000.customSectors}}" decimals="2" width="160"></justgage>
+                </div>
+                <md-divider inset="" flex="none"></md-divider>
+                        <!--<div layout="row" flex>
+            <justgage title="CS Drop" min="0" max="100" value="{{worstCellMap.selectedMaker.model.data.E3GCSDrop}}" label="%" level-colors="{{guage.levelColors}}" custom-sectors="{{guage.customSectors}}" decimals="2" flex></justgage>
+            <justgage title="CS Drop" min="0" max="100" value="{{worstCellMap.selectedMaker.model.data.pE3GCSDrop}}" label="%" level-colors="{{guage.levelColors}}" custom-sectors="{{guage.customSectors}}" decimals="2" flex></justgage>
+        </div>-->
+                    <md-divider inset="" flex="none"></md-divider>
+                    <md-toolbar class="md-toolbar-tools" flex="none">
+                        Cells
+                    </md-toolbar>
+                    <md-content flex>
+                        <md-list>
+                            <md-list-item class="md-3-line" ng-repeat="obj in getCellsBySite(worstCellMap.data.neighborCells, worstCellMap.selectedMaker.model.data.SITE_ID)">
+                                <img src="images/icons/{{obj.pCell_Avail == 100?'cell_green':'cell_red'}}.png" style="padding:36px 6px;width:16px;height:16px;-webkit-transform: rotate({{obj.AZIMUTH}}deg)">
+                                <div class="md-list-item-text">
+                                    <h3>{{obj.UtranCell}}</h3>
+                                    <p>
+                                        Availability: {{obj.pCell_Avail.toFixed(2)}}%
+                                    </p>
+                                    <p>
+                                        CS Drop: {{obj.E3GCSDrop.toFixed(2)}}
+                                        ({{obj.pE3GCSDrop.toFixed(2)}}%)
+                                    </p>
+                                </div>
+                                <md-divider inset=""></md-divider>
+                            </md-list-item>
+                        </md-list>
+                    </md-content>
+</md-content>
+</md-sidenav>
+    </div>
+</md-dialog>

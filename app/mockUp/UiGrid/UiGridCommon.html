@@ -1,0 +1,520 @@
+﻿<div ng-controller="mockup.north" class="row-fluid gridNorth" ng-init="checkPermission();">
+    <div class="span12">
+        <input type="button" class="btn divShowFilter" value="Show Filter" ng-click="showFilter()" />
+
+        <div class="span12 divFilter">
+            <div class="widget green">
+                <div class="widget-title">
+                    <h4>{{region}}</h4>
+                </div>
+                <div class="widget-body">
+                    <fieldset class="fieldsetFilter form-horizontal">
+                        <legend>Filter {{region}}</legend>
+                        <div class="span6 leftPane">
+
+                            <div class="control-group">
+                                <label class="control-label" for="IM">IM </label>
+                                <div class="controls"><input class="IM_Filter span10" type="text" name="IM" id="IM" value="" maxlength="8" /></div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="WK">Week </label>
+                                <div class="controls"><input class="WK_Filter span10" type="text" name="WK" id="WK" value="" maxlength="4" /></div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="KPIName">KPI Name </label>
+                                <div class="controls">
+                                    <select class="KPIName_Filter span10" ng-model="selectedKpiNameList" ng-options="KpiName.KPI_NAME2 for KpiName in KpiNameList track by KpiName.KPI_NAME2">
+                                        <option value="">--None--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="KPIValue"></label>
+                                <div class="controls KPIValueFilter">
+                                    <select class="span2 KPIValueOption" ng-model="selectedKpiValueList" ng-change="setUpReadOnly()">
+                                        <option value="0">--None--</option>
+                                        <option value="1"><</option>
+                                        <option value="2">></option>
+                                    </select>
+                                    <input class="KPIValueCompare span8" readonly="readonly" type="text" name="KPIValue" id="KPIValue" value="" maxlength="10" />
+                                </div>
+
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="NPS_Filter">NPS</label>
+                                <div class="controls">
+                                    <select class="NPS_Filter span10">
+                                        <option value="">--None--</option>
+                                        <option value="Y">Y</option>
+                                        <option value="N">N</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="sitecode_Filter">Site Code</label>
+                                <div class="controls"><input class="sitecode_Filter span10" type="text" name="sitecode" id="sitecode_Filter" value="" /></div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="sitecodeeng_Filter">Site Code</label>
+                                <div class="controls"><input class="sitecodeeng_Filter span10" type="text" name="sitecodeeng" id="sitecodeeng_Filter" value="" /></div>
+                            </div>
+                            <fieldset>
+                                <legend>RAN</legend>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="RAN_STATUS_Filter">RAN Status</label>
+                                    <div class="controls">
+                                        <select class="RAN_STATUS_Filter span10 m-wrap" ng-model="selectedRanStatusList" ng-options="RanStatus.Ran_Status for RanStatus in Ran_Status_List track by RanStatus.Ran_Status">
+                                            <option value="">--None--</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="IM_FO_Filter">IM FO (Ex.IM000000)</label>
+                                    <div class="controls"><input class="IM_FO_Filter span10" type="text" maxlength="20" name="IM_FO" id="IM_FO_Filter" value="" /></div>
+                                </div>
+                            </fieldset>
+
+                            <!--<div class="control-group">
+                                <label class="control-label" for="RAN_REMARK">Ran Remark</label>
+                                <div class="controls"><input class="RAN_REMARK_Filter span10" type="text" name="RAN_REMARK" id="RAN_REMARK_Filter" value="" /></div>
+                            </div>-->
+                        </div>
+
+                        <!--filter right pane-->
+                        <div class="span6 rightPane">
+
+                            <div class="control-group">
+                                <label class="control-label" for="PROBLEM_CAT_Filter">Problem Category</label>
+                                <div class="controls">
+                                    <select class="PROBLEM_CAT_Filter span10" ng-model="selectedProblemCategoryList" ng-options="ProblemCategory.Problem_Category for ProblemCategory in Problem_Category_List track by ProblemCategory.Problem_Category">
+                                        <option value="">--None--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>Short Term</legend>
+                                <div class="control-group">
+                                    <label class="control-label" for="SHORT_TERM_SOLUTION_Filter">Solution</label>
+                                    <div class="controls">
+                                        <select class="SHORT_TERM_SOLUTION_Filter span10" ng-model="selectedShortTermSolutionList" ng-options="ShortTermSolution.ShortTerm_Solution for ShortTermSolution in ShortTerm_Solution_List track by ShortTermSolution.ShortTerm_Solution">
+                                            <option value="">--None--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="CR_NUMBER_Filter">CR Number (CR000000)</label>
+                                    <div class="controls"><input class="CR_NUMBER_Filter span10" type="text" maxlength="8" name="CR_NUMBER" id="CR_NUMBER" value="" /></div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="CR_STATUS_Filter">CR Status</label>
+                                    <div class="controls">
+                                        <select class="CR_STATUS_Filter span10" ng-model="selectedCRStatusList" ng-options="CRStatus.CR_Status for CRStatus in CR_Status_List track by CRStatus.CR_Status">
+                                            <option value="">--None--</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="SHORT_TERM_TARGET_WK_Filter">Target Week (ST)</label>
+                                    <div class="controls"><input class="SHORT_TERM_TARGET_WK_Filter span10" maxlength="4" type="text" name="SHORT_TERM_TARGET_WK" id="SHORT_TERM_TARGET_WK" value="" /></div>
+                                </div>
+                            </fieldset>
+
+                            <!--<div class="control-group">
+                                <label class="control-label" for="MID_TERM_SOLUTION_Filter">Mid Term Solution</label>
+                                <div class="controls">
+                                    <select class="MID_TERM_SOLUTION_Filter span10" ng-model="selectedMidTermSolutionList" ng-options="MidTermSolution.MidTerm_Solution for MidTermSolution in MidTerm_Solution_List track by MidTermSolution.MidTerm_Solution">
+                                        <option value="">--None--</option>
+                                    </select>
+                                </div>
+                            </div>-->
+                            <!--<div class="control-group">
+                                <label class="control-label" for="MID_TERM_SOLUTION_STATUS_Filter">Mid Term Solution Status</label>
+                                <div class="controls">
+                                    <select class="MID_TERM_SOLUTION_STATUS_Filter span10" ng-model="selectedMidTermSolutionStatusList" ng-options="MidTermSolutionStatus.MidTerm_Solution_Status for MidTermSolutionStatus in MidTerm_Solution_Status_List track by MidTermSolutionStatus.MidTerm_Solution_Status">
+                                        <option value="">--None--</option>
+                                    </select>
+                                </div>
+                            </div>-->
+                            <!--<div class="control-group">
+                                <label class="control-label" for="MID_TERM_TARGET_MONTH_Filter">Target Month (Mid-Term) Ex.201509</label>
+                                <div class="controls"><input class="MID_TERM_TARGET_MONTH_Filter span10" type="text" name="MID_TERM_TARGET_MONTH" id="MID_TERM_TARGET_MONTH" value="" maxlength="6" /></div>
+                            </div>-->
+
+                            <fieldset>
+                                <legend>Short Term</legend>
+                                <div class="control-group">
+                                    <label class="control-label" for="LONG_TERM_SOLUTION_Filter">Solution</label>
+                                    <div class="controls">
+                                        <select class="LONG_TERM_SOLUTION_Filter span10" ng-model="selectedLongTermSolutionList" ng-options="LongTermSolution.LongTerm_Solution for LongTermSolution in LongTerm_Solution_List track by LongTermSolution.LongTerm_Solution">
+                                            <option value="">--None--</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="LONG_TERM_SOLUTION_STATUS_Filter">Status</label>
+                                    <div class="controls">
+                                        <select class="LONG_TERM_SOLUTION_STATUS_Filter span10" ng-model="selectedLongTermSolutionStatusList" ng-options="LongTermSolutionStatus.LongTerm_Solution_Status for LongTermSolutionStatus in LongTerm_Solution_Status_List track by LongTermSolutionStatus.LongTerm_Solution_Status">
+                                            <option value="">--None--</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="LONG_TERM_TARGET_MONTH_Filter">Target Month(LT)</label>
+                                    <div class="controls"><input class="LONG_TERM_TARGET_MONTH_Filter span10" type="text" name="LONG_TERM_TARGET_MONTH" id="LONG_TERM_TARGET_MONTH" maxlength="6" value="" /></div>
+                                </div>
+                            </fieldset>
+                            <div class="control-group filterButton">
+                                <input type="button" class="btn btn-primary btn-sm" value="Filter" ng-click="Filter()" />
+                                <input type="button" class="btn btn-danger btn-sm" value="Cancel" ng-click="CancelData()" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <!--End of Filter form CLASS = divFilter-->
+        <!--update form-->
+
+        <div class="span12 divUpdate">
+            <div class="widget orange">
+                <div class="widget-title">
+                    <h4>{{IMDisplay}}</h4>
+                </div>
+                <div class="widget-body">
+                    <div class="bs-docs-example">
+                        <ul id="myTab" class="nav nav-tabs">
+                            <li class="active"><a href="#home" data-toggle="tab">IM Details</a></li>
+                            <li class="" ng-click="reloadHistory()"><a href="#profile" data-toggle="tab">History Remark</a></li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade active in" id="home">
+                                <fieldset class="fieldsetUpdate form-horizontal">
+                                    <legend>{{sitecodeDisplay}} / {{cellIdDisplay}}</legend>
+                                    <div class="span6 leftPane">
+
+                                        <div class="control-group">
+                                            <label class="control-label" for="IM">IM </label>
+                                            <div class="controls">
+                                                <input class="IM span10" type="text" name="IM" id="IM" value="" readonly="readonly" maxlength="8" />
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <label class="control-label" for="WEEK">Week</label>
+                                            <div class="controls">
+                                                <input class="WEEK span10" type="text" name="WEEK" id="WEEK" value="" readonly="readonly" />
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <label class="control-label" for="KPI">KPI</label>
+                                            <div class="controls"><input class="KPI span10" type="text" name="KPI" id="KPI" value="" readonly="readonly" /></div>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <label class="control-label" for="NPS">NPS</label>
+                                            <div class="controls"><input class="NPS span10" type="text" name="NPS" id="NPS" value="" readonly="readonly" /></div>
+                                        </div>
+
+                                        <!--<div class="control-group">
+                                            <label class="control-label" for="RAN_OPERATION">RAN Operation</label>
+                                            <div class="controls">
+                                                <select class="RAN_OPERATION span10" ng-model="selectedRanOperationList" ng-options="RanOperation.Ran_Operation for RanOperation in Ran_Operation_List track by RanOperation.Ran_Operation">
+                                                    <option value="">--None--</option>
+                                                </select>
+                                            </div>
+                                        </div>-->
+
+                                        <fieldset>
+                                            <legend>RAN</legend>
+                                            <div class="control-group">
+                                                <label class="control-label" for="RAN_STATUS">RAN Status</label>
+                                                <div class="controls">
+                                                    <select class="RAN_STATUS span10" ng-model="selectedRanStatusList" ng-options="RanStatus.Ran_Status for RanStatus in Ran_Status_List track by RanStatus.Ran_Status">
+                                                        <option value="">--None--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <label class="control-label" for="IM_FO">IM FO (IM000000)</label>
+                                                <div class="controls"><input class="IM_FO span10" type="text" maxlength="20" name="IM_FO" id="IM_FO" value="" /></div>
+                                            </div>
+                                        </fieldset>
+                                        <div class="control-group">
+                                            <label class="control-label" for="TotalKPI">Total KPI / Site</label>
+                                            <div class="controls"><input class="span10" readonly="readonly" type="text" maxlength="50" name="TotalKPI" id="TotalKPI" value="" /></div>
+                                        </div>
+
+                                        <div class="span11 totalKPI">
+
+                                            <!--<div style="width:100%;" id="grid4" ui-grid="gridOptions4" ui-grid-resize-columns
+                                                 ui-grid-pinning
+                                                 ui-grid-exporter
+                                                 ui-grid-pagination class="grid">
+                                            </div>-->
+                                            <table>
+                                                <tr>
+                                                    <th>Select</th>
+                                                    <th style="min-width: 90px;">IM</th>
+                                                    <th style="min-width:130px;">cellName</th>
+                                                    <th style="min-width:222px;">KPI_NAME</th>
+                                                    <th>pKPI_WCWK</th>
+                                                    <th>FAIL_WCWK</th>
+                                                    <th style="min-width: 90px;">IM_FO</th>
+                                                    <th style="min-width: 130px;">PROBLEM_CAT</th>
+                                                    <th>SHORT_TERM_SOLUTION</th>
+                                                    <th>LONG_TERM_SOLUTION</th>
+                                                </tr>
+                                                <tr ng-repeat="kpi in TotalKPI">
+                                                    <td>
+                                                        <input type="checkbox" ng-click="updateSelection($event, kpi.WK,kpi.KPI_ID,kpi.CELL_ID)" />
+                                                    </td>
+                                                    <td>{{kpi.IM}}</td>
+                                                    <td>{{kpi.cellName}}</td>
+                                                    <td>{{kpi.KPI_NAME}}</td>
+                                                    <td>{{kpi.pKPI_WCWK}}</td>
+                                                    <td>{{kpi.FAIL_WCWK}}</td>
+                                                    <td>{{kpi.IM_FO}}</td>
+                                                    <td>{{kpi.PROBLEM_CAT}}</td>
+                                                    <td>{{kpi.SHORT_TERM_SOLUTION}}</td>
+                                                    <td>{{kpi.LONG_TERM_SOLUTION}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <!--<div class="control-group">
+                                            <label class="control-label" for="RAN_REMARK">Ran Remark</label>
+                                            <div class="controls"><input class="RAN_REMARK span10" type="text" name="RAN_REMARK" id="RAN_REMARK" value="" /></div>
+                                        </div>-->
+                                    </div>
+
+                                    <!--Start Right Pane-->
+                                    <div class="span6 rightPane">
+
+
+                                        <!--<div class="control-group">
+                                            <label class="control-label" for="MID_TERM_SOLUTION">Mid Term Solution</label>
+                                            <div class="controls">
+                                                <select class="MID_TERM_SOLUTION span10" ng-model="selectedMidTermSolutionList" ng-options="MidTermSolution.MidTerm_Solution for MidTermSolution in MidTerm_Solution_List track by MidTermSolution.MidTerm_Solution">
+                                                    <option value="">--None--</option>
+                                                </select>
+                                            </div>
+                                        </div>-->
+                                        <!--<div class="control-group">
+                                            <label class="control-label" for="MID_TERM_SOLUTION_STATUS">Mid Term Solution Status</label>
+                                            <div class="controls">
+                                                <select class="MID_TERM_SOLUTION_STATUS span10" ng-model="selectedMidTermSolutionStatusList" ng-options="MidTermSolutionStatus.MidTerm_Solution_Status for MidTermSolutionStatus in MidTerm_Solution_Status_List track by MidTermSolutionStatus.MidTerm_Solution_Status">
+                                                    <option value="">--None--</option>
+                                                </select>
+                                            </div>
+                                        </div>-->
+                                        <!--<div class="control-group">
+                                            <label class="control-label" for="MID_TERM_TARGET_MONTH">Mid Term Target Month</label>
+                                            <div class="controls"><input class="MID_TERM_TARGET_MONTH span10" type="text" maxlength="8" name="MID_TERM_TARGET_MONTH" id="MID_TERM_TARGET_MONTH" value="" /></div>
+                                        </div>-->
+                                        <div class="control-group">
+                                            <div class="displayIMStatus"></div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="PROBLEM_CAT">Problem Category</label>
+                                            <div class="controls">
+                                                <select class="PROBLEM_CAT span10" ng-model="selectedProblemCategoryList" ng-options="ProblemCategory.Problem_Category for ProblemCategory in Problem_Category_List track by ProblemCategory.Problem_Category">
+                                                    <option value="">--None--</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <fieldset>
+                                            <legend class="legendShortTerm">Short Term</legend>
+                                            <div class="control-group">
+                                                <label class="control-label" for="SHORT_TERM_SOLUTION">Solution</label>
+                                                <div class="controls">
+                                                    <select class="SHORT_TERM_SOLUTION span10" ng-model="selectedShortTermSolutionList" ng-options="ShortTermSolution.ShortTerm_Solution for ShortTermSolution in ShortTerm_Solution_List track by ShortTermSolution.ShortTerm_Solution">
+                                                        <option value="">--None--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="CR_NUMBER">CR Number (CR000000)</label>
+                                                <div class="controls"><input class="CR_NUMBER span10" type="text" maxlength="8" name="CR_NUMBER" id="CR_NUMBER" value="" /></div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="CR_STATUS">CR Status</label>
+                                                <div class="controls">
+                                                    <select class="CR_STATUS span10" ng-model="selectedCRStatusList" ng-options="CRStatus.CR_Status for CRStatus in CR_Status_List track by CRStatus.CR_Status">
+                                                        <option value="">--None--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="SHORT_TERM_TARGET_WK">Target Week (ST)</label>
+                                                <div class="controls"><input class="SHORT_TERM_TARGET_WK span10" maxlength="4" type="text" name="SHORT_TERM_TARGET_WK" id="SHORT_TERM_TARGET_WK" value="" /></div>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend class="legendLongTerm">Long Term</legend>
+                                            <div class="control-group">
+                                                <label class="control-label" for="LONG_TERM_SOLUTION">Solution</label>
+                                                <div class="controls">
+                                                    <select class="LONG_TERM_SOLUTION span10" ng-model="selectedLongTermSolutionList" ng-options="LongTermSolution.LongTerm_Solution for LongTermSolution in LongTerm_Solution_List track by LongTermSolution.LongTerm_Solution">
+                                                        <option value="">--None--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <label class="control-label" for="LONG_TERM_SOLUTION_STATUS">Status</label>
+                                                <div class="controls">
+                                                    <select class="LONG_TERM_SOLUTION_STATUS span10" ng-model="selectedLongTermSolutionStatusList" ng-options="LongTermSolutionStatus.LongTerm_Solution_Status for LongTermSolutionStatus in LongTerm_Solution_Status_List track by LongTermSolutionStatus.LongTerm_Solution_Status">
+                                                        <option value="">--None--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <label class="control-label" for="LONG_TERM_TARGET_MONTH">Target Month (LT)</label>
+                                                <div class="controls"><input class="LONG_TERM_TARGET_MONTH span10" type="text" maxlength="6" name="LONG_TERM_TARGET_MONTH" id="LONG_TERM_TARGET_MONTH" value="" /></div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset>
+                                            <legend class="legendRemark">Remark</legend>
+                                            <div class="control-group remarkArea">
+
+                                                <div class="controls">
+                                                    <textarea rows="4" cols="50" class="REMARK RemarkTextArea span10" id="REMARK"></textarea>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <div class="control-group span12 saveZone">
+                                            <div class="controls applyAll">
+                                                <span>Apply all:</span>
+                                                <input type="checkbox" class="checkboxTotalKPI KPI2G" />2G
+                                                <input type="checkbox" class="checkboxTotalKPI KPI3GU08" />3G-U08
+                                                <input type="checkbox" class="checkboxTotalKPI KPI3GU21" />3G-U21
+                                                <input type="checkbox" class="checkboxTotalKPI KPI4GL18" />4G-L18
+                                                <input type="checkbox" class="checkboxTotalKPI KPI4GL21" />4G-L21
+                                            </div>
+                                            <input type="button" class="btn btn-primary btn-sm updateDataClass" value="Update" ng-click="Update()" />
+                                            <input type="button" class="btn btn-danger btn-sm cancelDataClass" value="Cancel" ng-click="CancelData()" />
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="tab-pane fade span12" id="profile">
+                                <div class="TableShowRemark">
+                                    <table>
+                                        <tr>
+
+                                            <th style="width: 60px;">Date Time</th>
+                                            <th style="min-width:130px;">Remark</th>
+                                            <th style="width:80px;">Remark By</th>
+
+                                        </tr>
+                                        <tr ng-repeat="remark in ShowRemark">
+
+                                            <td style="width: 60px;">{{remark.DATETIME_ID_New}}</td>
+                                            <td style="text-align:left;">{{remark.REMARK}}</td>
+                                            <td style="width:80px;">{{remark.LOGIN_NAME}}</td>
+
+                                        </tr>
+                                    </table>
+                                </div>                  
+                                <!--Remark History-->
+                                <!--<div style="width:100%;" id="UIgrid3" ui-grid="gridOptions3" ui-grid-resize-columns
+                                     ui-grid-pinning
+                                     ui-grid-exporter
+                                     ui-grid-pagination class="grid"></div>-->
+                                 
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end of update form  CLASS=divUpdate-->
+
+        <div class="span12">
+            <div class="span1">
+                <img src="img/logo-excel.png" style="width:18px;height:18px;" />
+                <a href="" ng-click="exportToExcel()" style="margin-left:3px; vertical-align:middle;">Export</a>
+            </div>
+            <div class="span3">
+                <input type="radio" class="radioMobile" value="1" name="radioChecked" ng-click="changeMobileType('All')" checked>All
+                <input type="radio" class="radioMobile" value="2" name="radioChecked" ng-click="changeMobileType('4G')">4G
+                <input type="radio" class="radioMobile" value="3" name="radioChecked" ng-click="changeMobileType('3G')">3G
+                <input type="radio" class="radioMobile" value="4" name="radioChecked" ng-click="changeMobileType('2G')">2G
+            </div>
+            <div class="span4">
+                <!--<input type="radio" class="radioOverdue" value="1" name="overdue" ng-click="OverDueIM('ShortTerm')">Short-Term Overdue
+                <input type="radio" class="radioOverdue" value="2" name="overdue" ng-click="OverDueIM('LongTerm')">Long-Term Overdue-->
+            </div>
+            <div class="span4">
+                <a href="#" class="btnShowHideKpi" ng-click="showKPIFilter()">Filter By KPI Name</a>
+                <div id="kpiDisplay">
+                    <ul class="kpiDisplayList">
+                        <!--<li><input type="checkbox" class="All" ng-model="vm.All" ng-change="filterKPIName(vm.All,'All')">All</li>-->
+                        <li><input type="checkbox" class="2G_pDL_TBF_Estab_Succ" ng-model="vm.2G_pDL_TBF_Estab_Succ" ng-change="filterKPIName()">2G_%DL TBF Estab_Succ</li>
+                        <li><input type="checkbox" class="2G_pHO_SR_2G_to_3G" ng-model="vm.2G_pHO_SR_2G_to_3G" ng-change="filterKPIName()">2G_%HO Success Rate (2G to 3G)</li>
+                        <li><input type="checkbox" class="2G_pPacket_Imm_Assgn_Rej" ng-model="vm.2G_pPacket_Imm_Assgn_Rej" ng-change="filterKPIName()">2G_%Packet_Imm_Assgn_Rej</li>
+                        <li><input type="checkbox" class="2G_pSDCCH_Blocking" ng-model="vm.2G_pSDCCH_Blocking" ng-change="filterKPIName()">2G_%SDCCH Blocking</li>
+                        <li><input type="checkbox" class="2G_pSDCCH_Drop" ng-model="vm.2G_pSDCCH_Drop" ng-change="filterKPIName()">2G_%SDCCH Drop</li>
+                        <li><input type="checkbox" class="2G_pTCH_Blocking" ng-model="vm.2G_pTCH_Blocking" ng-change="filterKPIName()">2G_%TCH Blocking</li>
+                        <li><input type="checkbox" class="2G_pTCH_Drop" ng-model="vm.2G_pTCH_Drop" ng-change="filterKPIName()">2G_%TCH Drop</li>
+                        <li><input type="checkbox" class="2G_pUL_TBF_Estab_Succ" ng-model="vm.2G_pUL_TBF_Estab_Succ" ng-change="filterKPIName()">2G_%UL TBF Estab_Succ</li>
+                        <li><input type="checkbox" class="2G_Cell_Availability" ng-model="vm.2G_Cell_Availability" ng-change="filterKPIName()">2G_Cell Availability</li>
+                        <li><input type="checkbox" class="2G_LLC_Throughput_kbps_EGPRS_DL" ng-model="vm.2G_LLC_Throughput_kbps_EGPRS_DL" ng-change="filterKPIName()">2G_LLC_Throughput_kbps_EGPRS_DL</li>
+                        <li><input type="checkbox" class="3G_Cell_Availability" ng-model="vm.3G_Cell_Availability" ng-change="filterKPIName()">3G_Cell Availability</li>
+                        <li><input type="checkbox" class="3G_CS_IRAT_HO_SR" ng-model="vm.3G_CS_IRAT_HO_SR" ng-change="filterKPIName()">3G_CS IRAT HO Success Rate</li>
+                        <li><input type="checkbox" class="3G_CS_CSSR" ng-model="vm.3G_CS_CSSR" ng-change="filterKPIName()">3G_CSSR (CS)</li>
+                        <li><input type="checkbox" class="3G_CS_DROP" ng-model="vm.3G_CS_DROP" ng-change="filterKPIName()">3G_Dropped Calls (CS)</li>
+                        <li><input type="checkbox" class="3G_PS_CSSR" ng-model="vm.3G_PS_CSSR" ng-change="filterKPIName()">3G_CSSR (PS)</li>
+                        <li><input type="checkbox" class="3G_PS_DROP" ng-model="vm.3G_PS_DROP" ng-change="filterKPIName()">3G_Dropped Calls (PS)</li>
+                        <li><input type="checkbox" class="3G_Soft_HO_SR_Combine" ng-model="vm.3G_Soft_HO_SR_Combine" ng-change="filterKPIName()">3G_Soft HO Success Rate Combine</li>
+                        <li><input type="checkbox" class="3G_THPT" ng-model="vm.3G_THPT" ng-change="filterKPIName()">3G_Throughput_UE_DL</li>
+                        <li><input type="checkbox" class="4G_Cell_Availability" ng-model="vm.4G_Cell_Availability" ng-change="filterKPIName()">4G_Cell Availability</li>
+                        <li><input type="checkbox" class="4G_CSSR" ng-model="vm.4G_CSSR" ng-change="filterKPIName()">4G_PS_CSSR</li>
+                        <li><input type="checkbox" class="4G_DROP" ng-model="vm.4G_DROP" ng-change="filterKPIName()">4G_Call Drop Rate</li>
+                        <li><input type="checkbox" class="4G_THPT" ng-model="vm.4G_THPT" ng-change="filterKPIName()">4G_Throughput (DL)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="span12">
+            <input type="radio" class="radioOverdue" value="1" name="radioChecked" ng-click="OverDueIM('ShortTerm')">ST CR Overdue
+            <input type="radio" class="radioOverdue" value="2" name="radioChecked" ng-click="OverDueIM('STNoTarget')">ST CR no target
+            <input type="radio" class="radioOverdue" value="3" name="radioChecked" ng-click="OverDueIM('STNoCR')">ST no CR
+            <input type="radio" class="radioOverdue" value="4" name="radioChecked" ng-click="OverDueIM('LongTerm')">LT Overdue
+            <input type="radio" class="radioOverdue" value="5" name="radioChecked" ng-click="OverDueIM('LTNoTarget')">LT no target
+            <input type="radio" class="radioOverdue" value="6" name="radioChecked" ng-click="OverDueIM('NoAction')">No action / Under Investigation
+        </div>
+        <div class="span12">
+            <div class="widget red mainLoadingIcon">
+                <div class="widget-title">
+                    <h4>{{region}}</h4>
+                </div>
+                <div class="loadingIcon">
+                    <img src="img/ajax-loader-bert2.gif" alt="" />
+                </div>
+                <div id="grid1" ui-grid="gridOptions1" ui-grid-resize-columns
+                     ui-grid-pinning
+                     ui-grid-exporter
+                     ui-grid-pagination class="grid">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

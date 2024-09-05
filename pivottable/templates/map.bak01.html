@@ -1,0 +1,52 @@
+﻿<style>
+    .map{
+        height:600px;
+    }
+    .cell_list{
+        font-size:14px;
+    }
+    .blue {
+        border-radius: 120px;
+        background-color: dodgerblue;
+        border:1px thick blue;
+    }
+</style>
+<md-dialog aria-label="Mango (Fruit)" style="width:100%">
+    
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Map {{eventDetected}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="images/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+
+    <md-progress-linear ng-show="worstCellMap_isLoadData" md-mode="indeterminate"></md-progress-linear>
+
+    <md-content ng-if="!worstCellMap_isLoadData" layout="row" flex>
+        <leaflet bounds="worstCellMap.bounds" layers="worstCellMap.layers" markers="worstCellMap.markers" class="map" width="100%" flex></leaflet>
+
+        <!--<md-content layout="column" flex class="map">
+            <md-content flex>
+                <div style="width:64px;display:inline-block" ng-repeat="obj in worstCellMap.data.neighborCells">
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td><img src="images/icons/cell_green.png" style="-webkit-transform: rotate(90deg)" /></td>
+                            <td>{{obj.UtranCell}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><{{obj.pCell_Avail}}%</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </md-content>
+        </md-content>-->
+    </md-content>
+
+
+
+</md-dialog>
